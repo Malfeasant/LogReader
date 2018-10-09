@@ -1,12 +1,15 @@
 package us.malfeasant.logreader;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class LogReader {
@@ -42,7 +45,9 @@ public class LogReader {
 	private void showOpen() {
 		JFileChooser chooser = new JFileChooser();
 		if (chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
-			openFile(chooser.getSelectedFile());
+			File chosen = chooser.getSelectedFile();
+			// TODO	check if file exists, etc
+			SwingUtilities.invokeLater(() -> openFile(chosen));
 		}
 	}
 	
@@ -53,11 +58,13 @@ public class LogReader {
 			file = null;
 		}
 		
-		// Check if passed file is valid
-		// TODO
-		
 		// Open file
-		file = f;
-		
+		try {
+			FileReader fr = new FileReader(f);
+			
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(frame, "File not found, please try again.");
+			return;
+		}
 	}
 }
